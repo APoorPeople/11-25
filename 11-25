@@ -1,0 +1,68 @@
+#include<iostream.h>
+
+//引用作为函数参数
+class A
+{
+	int x,y;
+public:
+	A(){x=y=0;}//不带参数的构造函数
+	A(int m,int n=0){x=m;y=n;}//带默认参数的构造函数
+	A(A& ra){ x=ra.x;y=ra.y;}//拷贝构造函数
+
+	void Copy(A& ra)//复制函数。需要手工调用
+	{ 
+		x=ra.x;y=ra.y;
+	}
+	void SetXY(int m,int n){x=m;y=n;}//设置数据成员函数
+	void Print(){cout<<"x="<<x<<",y="<<y<<endl; }
+};
+
+void main()
+{
+	A a1,a2(1),a3(2,3),a4(a3);
+	a1.Copy(a3);
+	a2.SetXY(1,1);
+	a1.Print();
+	a2.Print();
+	a3.Print();
+	a4.Print();
+}
+
+
+////////////////////////////////////////////////////////////
+
+
+#include<iostream.h>
+#include<string.h>
+class Student
+{
+	char name[20];
+	long int stuno;
+	int score;
+		static int cnt;
+public:
+
+	Student(char name1[]="",long int no=0,int sco=0)
+	{
+		strcpy(name,name1);
+		stuno=no;
+		score=sco;
+		cnt++;
+		cout<<cnt<<endl;
+	}
+	void Setscore(int n)
+	{ score=n; }
+	void Print()
+	{ cout<<stuno<<'\t'<<name<<'\t'<<score<<endl; }
+	~Student(){cnt--;}
+};
+int Student::cnt=0;
+void main()
+{
+	Student stu[5]={Student("Ma",5019001,94),Student("Hu",5019002,95),Student("Li",5019003,88)};
+	stu[3]=Student("Zhu",5019004,85);
+	stu[4]=Student("Lu",5019005,90);
+	stu[1].Setscore(98);
+	for(int i(0);i<5;i++)
+		stu[i].Print();
+}
